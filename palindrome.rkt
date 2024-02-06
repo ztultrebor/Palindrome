@@ -13,12 +13,16 @@
             (define d (length sploder))
             (define (recursor lets st l)
                 (cond
-                    [(is-palindrome? lets st (+ st l)) `(,st ,(+ st l))]
                     [(> (+ st l) (length lets)) #f]
+                    [(is-palindrome? lets st (+ st l)) `(,st ,(+ st l))]
                     [else (recursor lets (add1 st) l)])))
-
     ; - IN -
-    (ormap (lambda (l) (recursor sploder 0 l)) (build-list d (lambda (x) (- d x))))))
+    (match (ormap (lambda (l) 
+                (ormap (lambda (a) (recursor sploder a l)) 
+                    (build-list d identity)))
+                (build-list d (lambda (x) (- d x))))
+        [#f '(0 0)]
+        [r r])))
 
 
 (define (is-palindrome? letters start fin)
@@ -53,8 +57,8 @@
 (check-equal? (longest-palindrome "i am ma i") '(0 9))
 (check-equal? (longest-palindrome "") '(0 0))
 (check-equal? (longest-palindrome "stufs") '(0 1))
-(check-equal? (longest-palindrome "maybe a man a p lan a c a nal p a nam a, or something")
-                 "a man a p lan a c a nal p a nam a")
+(check-equal? (longest-palindrome "maybe a man a p lan a c a nal p a nam a, or something") '(6 39))
+
 
 ; ========================
 ; action!
