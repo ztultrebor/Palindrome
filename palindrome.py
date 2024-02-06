@@ -20,12 +20,13 @@ def longest_palindrome(text):
 
 
 def tests():
-    assert longest_palindrome("i am ma i") == "i am ma i"
-    return "tests pass"
-#tests()
+    assert longest_palindrome("i am ma i") == (0,9)
+    assert longest_palindrome("") == (0,0)
+    assert longest_palindrome("stufs") == (0,1)
+    assert longest_palindrome("maybe a man a p lan a c a nal p a nam a, or something") == (6,39)
+    print("tests pass")
+tests()
 
 
 # ========================
 # action!
-
-print(longest_palindrome("i am ma i"))
