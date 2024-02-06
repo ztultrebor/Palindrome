@@ -6,11 +6,24 @@
 ; functions
 
 
+(define (longest-palindrome text)
+""" String -> ???
+    returns the longest palindrome in a given piece of text"""
+    (local ((define sploder (string->list text))
+            (define d (length sploder))
+            (define (recursor lets st l)
+                (cond
+                    [(is-palindrome? lets st (+ st l)) `(,st ,(+ st l))]
+                    [(> (+ st l) (length lets)) #f]
+                    [else (recursor lets (add1 st) l)])))
+
+    ; - IN -
+    (ormap (lambda (l) (recursor sploder 0 l)) (build-list d (lambda (x) (- d x))))))
 
 
 (define (is-palindrome? letters start fin)
 """ [ListOf Char] N N -> Boolean
-    determines if a given list of letters is a palindrome"""
+    determines if a given list of letters has a palindrome from start to fin"""
     (or
         (>= start fin)
         (and
@@ -37,9 +50,9 @@
 (check-equal? (is-palindrome? (string->list "no i am ma i") 0 12) #f)
 (check-equal? (is-palindrome? (string->list "i") 0 1) #t)
 (check-equal? (is-palindrome? (string->list "") 0 0) #t)
-(check-equal? (longest-palindrome "i am ma i") "i am ma i")
-(check-equal? (longest-palindrome "") "")
-(check-equal? (longest-palindrome "stufs") "s")
+(check-equal? (longest-palindrome "i am ma i") '(0 9))
+(check-equal? (longest-palindrome "") '(0 0))
+(check-equal? (longest-palindrome "stufs") '(0 1))
 (check-equal? (longest-palindrome "maybe a man a p lan a c a nal p a nam a, or something")
                  "a man a p lan a c a nal p a nam a")
 
